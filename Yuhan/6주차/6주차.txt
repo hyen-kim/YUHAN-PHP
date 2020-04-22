@@ -1,0 +1,218 @@
+
+=============================================================================
+
+6주차
+
+- MySQL 데이터베이스 사용하기
+=============================================================================
+
+red server	--- DB
+   | 
+  y학번
+   |
+ public_html
+ index.html
+
+-> public_html에서 DB를 연결한다는 개념
+
+
+
+- ftp (file transfer protocol)
+- telnet
+
+< Telnet 작업하는법 >
+window10
+
+제어판 > 프로그램 및 기능 선택 
+
+windows 기능 켜기/끄기 선택
+Telnet Client 선택
+
+1. 위에 작업을 한 뒤
+telnet red.yuhan.ac.kr
+
+2. mysql -u mysql아이디 -p 데이터베이스명
+-> mysql을 사용할 수 있는 상태로 넘어옴.
+-> mysql 문법만 사용
+-> red 서버에 있는 mysql db를 사용하기 위한 클라이언트 명령
+
+* /q : 유닉스상태로 다시 빠져나감
+
+
+==> telnet으로 red.yuhan.ac.kr으로 접속하지 못하니
+    교수님 수업파일을 이용하여 작업하긴
+
+
+
+
+< MySQL 질의어 >	-> 오라클이랑 다름 헷갈리면 안된다.
+
+1) 데이터 정의문
+- 테이블의 생성 : create table 테이블명 ( 필드명  타입, ... );
+- 테이블의 변경 : alter table 테이블명 
+		  ADD 필드명 타입
+		  DROP 필드명
+		  CHANGE 기존필드명 새필드명
+		  MODIFY 기존필드명 새로운타입
+		  RENAME 새테이블명
+- 테이블 이름 변경 : rename table 기존테이블명 to 새테이블명;
+- 테이블의 삭제 : drop table 테이블명;
+
+
+
+* 데이터 타입 설정
+- 숫자형 : int (4byte)
+- 문자형 : char(n)-> 공간이 16개가 잡힌다는 의미
+           varchar(n) -> 공간을 16개를 잡고 8개를 사용하였다면
+                         공간을 내버려두지 않고 없앤다는 의미
+                         메모리를 효율적으로 사용 
+           text 
+	   blob -> 바이너리 파일
+
+테이블은 하나의 데이터베이스안에 여러개 존재
+어떤 정보를 주고 받는 기본 단위는 테이블
+
+
+
+2) 데이터 조작문
+- INSERT : 새로운 정보를 테이블에 추가
+- SELECT : DB에 있는 정보를 읽어오고자 할 때
+- UPDATE : 기존에 들어가있는 정보를 바꾸고자할 때
+- DELETE : 특정 줄을 지우고자 할 때
+
+
+1. INSERT 
+- insert into 테이블명 (필드명, ...) values ('데이터값', ...) <-- 이 방법 사용
+- insert into 테이블명 values(데이터값, ...)
+* DB에서의 null은 값이 정해지지 않은 상태
+-> 회원가입과 연관되는 쿼리
+
+2. SELECT
+- select * password('php5408');	<-- 패스워드 암호화하여 그 값을 얻고 싶을 때 사용
+- select * from member order by point desc limit 2; 
+-> 로그인과 연관되는 쿼리
+
+
+
+3. UPDATE 
+- update 테이블명 set 필드명 = '값' where 필드명 = '값'
+- update member set level = 'A' where id = 'park'
+- update member set point = point + 100;	<-- 모든 point에 적용
+* 기존에 있는 특정 값을 바꾸고 싶을 때 사용
+-> 회원정보를 변경할 때 사용하는 쿼리
+-> null값을 넣어줄 때도 사용하는 쿼리
+
+
+
+4. DELETE
+- delete from 테이블명 [where 검색조건] [order by 검색조건] [limit row_count]
+- delete form member where id = 'hsjoo';
+* delete 할 때는 조건을 필수로
+-> 회원탈퇴할 때 사용하는 쿼리
+
+
+ 
+
+
+
+< 실습 >
+1. member table 생성
+
+----------------------------------------------------
+id		email		point	level
+----------------------------------------------------
+varchar(16)	varchar(40)	int	char(1)
+primary
+----------------------------------------------------
+
+방법1)
+create table member (
+id varchar(16) not null, 
+email varchar(40),
+point int,
+level char(1),
+primary key(id)
+);
+* primary 는 null 값을 허용하면 안됨.
+
+
+방법2)
+create table member (
+id varchar(16) primary key,
+email varchar(40),
+point int,
+level char(1)
+);
+
+
+
+2. email을 바꾸고자 할 때
+alter table member change email email varchar(50)
+alter table member modify email varchar(50)
+
+
+
+
+< 질문 >
+1. insert into 테이블명 (필드명, ...) values (데이터값, ...) 
+   필드명을 써줄 때 꼭 순서대로 나열을 해야하는가 ?
+- 아니요. 필드명은 자신의 마음대로, 데이터값만 앞의 필드명에 맞춰주면 된다.
+
+
+
+
+
+
+
+< 실습과제 5-1 >
+- 다음과 같은 테이블을 만들어서 각각의 쿼리 결과를 작성하라
+
+DB명 : CSE2020
+table명 : a학번
+
+----------------------------------------------------------------------
+필드명		데이터 type		비고
+----------------------------------------------------------------------
+id		varchar(16)		아이디, primary, key
+sex		char(1)			성별(M,F)
+hp_type		char(3)			통신사(KT,LGT,SKT)
+hp_no		varchar(13)		핸드폰번호(123-1234-1234)
+year		char(4)			출생년도
+point		int 			포인트
+
+
+1) 쿼리 생성
+
+create table a201907033 (
+id varchar(16) primary key,
+sex char(1),
+hp_type char(3),
+hp_no varchar(13),
+year char(4),
+point int 
+);
+
+
+2) 쿼리검색 -> desc a201907033; 
+
+desc a201907033;
+--------------------------------
+id   	varchar(16)   	   	PRI   	   	   
+sex   	char(1)   	YES   	   	   	   
+hp_type   	char(3)   	YES   	   	   	   
+hp_no   	varchar(13)   	YES   	   	   	   
+year   	varchar(4)   	YES   	   	   	   
+point   	int(11)   	YES   	   	   	   
+
+
+3) 자신의 정보 입력
+insert into a201907033 values('kimhyein','F','SKT','010-1111-1111','2000','700');
+
+
+4) select * from a201907033;
+select * from a201907033;
+--------------------------------
+kimhyein   	F   	SKT   	010-1111-1111   	2000   	700   
+
+
+
