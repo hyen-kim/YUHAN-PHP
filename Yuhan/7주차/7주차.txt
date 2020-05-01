@@ -1,0 +1,232 @@
+
+=============================================================================
+
+7주차
+
+* 중간평가는 8주차에서 더 늦출 수 있음
+- MySQL client 접속 리뷰
+- php와 DB 연동
+
+=============================================================================
+
+red server ---- DB
+    |
+  y학번
+    | 
+public_html
+    |
+   mid
+   join.html
+
+
+
+ftp(file transfer protocol)
+telne : 인터넷상에 있는 어떤 서버에 접속하기 위한 서비스
+
+
+* cmd 창에서
+telnet red.yuhan.ac.kr		----> 외부에서 접속불가
+
+mysql -u mysql아이디 -p 데이터베이스명 <------ mysql client 실행명령
+       DB사용자ID
+	
+
+ -----------------------------
+  mysql 사용자 id : user2020  
+  mysql 사용자 비번 : php     
+ 			      
+  DB명 : CSE2020              
+ -----------------------------
+
+$ : 유닉스 명령
+mysql> : DB명령을 줄 수 있음
+
+
+
+
+
+< 6주차 과제 보충 >
+1) select * from a order by point desc;
+: point를 기준으로 내림차순
+
+2) select * from order by point desc limit 2;
+: point를 기준으로 내림차순하는데, 앞에서 2개만
+
+
+3) select * from a order by point desc limit 1,2;
+: point를 기준으로 내림차순하는데, 1번째부터 2개만
+  테이블에서 0번째 부터 시작
+
+4) select password('abcde');
+: abcde라는 문자열을 암호화하여 그 값을 우리에게 보여줌	
+*) select는 보여달라는 의미 
+
+
+
+
+< DB 연동 방법 >
+- MySQL 데이터베이스 서버 접속 	: mysql_connect()
+
+- 사용할 데이터베이스 선택 	: mysql_select_db()
+
+- SQL query 전달 		: mysql_query()
+
+- query 결과 처리
+	mysql_num_rows()	: 질의 결과의 레코드 수를 반환
+	* mysql_fetch_row()	: 첨자로 참조 가능한 배열의 형태로 반환
+	* mysql_fetch_array()	: 연관 배열 형태로 참조할 수 있도록 반환
+	* mysql_fetch_object()	: 결과 레코드를 배열이 아닌 객체의 형태로 반환
+	* mysql_result()	: 특정 레코드의 한 필드를 반환
+	=> DB가 작업한 내용을 가져옴
+
+- 쿼리 결과에 대한 HTML 문서 작성
+
+- 데이터베이스 접속 해제 : mysql_close()
+
+
+=> php는 함수 기반의 형태 (c와 비슷한 문법)
+   함수라는 개념을 가지고 작업.
+
+
+
+
+* PHP에서 MySQL 서버 접속과 종료
+서버접속 : resource mysql_connect(string host[:port], string user, string password)
+서버종료 : bool mysql_close([resource link_identifer])
+
+ex6-01.php : MySQL 서버 접속과 종료의 예
+<meta charset="utf-8">  <!-- 한글깨짐 방지를 위해 -->
+<?php
+  $conn = mysql_connect("localhost", "user2020","php");
+  # localhost : 내 기기 자체를 뜻함
+  # user2020 : DB 사용자 ID
+  # php : 비밀번호
+  # 위에 연결이 성공된다면 true 결과를 반환
+
+  if(! $conn){  # 연결을 시도했는데 리턴값이 거짓이라면
+    # id,pw가 다르다거나, DB서버가 죽어있으면 연결이 되지 않음
+      echo "MySQL 서버 접속에 실패했습니다.";
+      exit; # 프로그램 강제 종료
+    }
+
+    echo "MySQL 서버 접속 성공 <br>";
+    echo $conn;
+    mysql_close($conn);
+ ?>
+
+*)  echo $conn;
+    mysql_close($conn);
+    위의 두개의 표현은 생략
+
+
+
+
+
+* 사용할 데이터베이스 선택
+bool mysql_select_db (string database_name [,resource link_identifer])
+
+ec6-02.php
+<meta charset="utf-8">  <!-- 한글깨짐 방지를 위해 -->
+<?php
+  $conn = mysql_connect("localhost", "user2020","php");
+
+  if(! $conn){
+      echo "MySQL 서버 접속에 실패했습니다.";
+      exit; # 프로그램 강제 종료
+    }
+
+    $db = mysql_select_db("CSE2020"); # 내가 사용할 DB를 select하기 위한 명령
+                                      # user2020은 CSE2020 DB만 사용 가능
+    if (! $db) {
+      echo "데이터베이스를 열수 없습니다.";
+      exit;
+    }
+    # ------------------------------------------- 필수적으로 필요한 부분
+
+    echo "connect success";
+    mysql_close($conn);
+ ?>
+
+
+
+
+
+
+
+* SQL query 전달
+resource mysql_query (string query[,resource link_identifier])
+
+ex6-03.php
+<meta charset="utf-8">  <!-- 한글깨짐 방지를 위해 -->
+<?php
+  $conn = mysql_connect("localhost", "user2020","php");
+  $db = mysql_select_db("CSE2020");
+
+  if(! $conn){
+        echo "MySQL 서버 접속에 실패했습니다.";
+        exit; # 프로그램 강제 종료
+  }
+  if (! $db) {
+    echo "데이터베이스를 열수 없습니다.";
+    exit;
+  }
+
+# ----------------------------------------------
+
+  $query = "select * from a201907033";  # a201907033 테이블의 내용을 가져옴
+  $result = mysql_query($query);        # $query라는 문자열이 갖고 있는 내용을 db에게 전달
+  # 변수를 왜 사용하는가 ? -> db의 결과를 저장하기 위해
+  # $result는 db데이터의 시작점을 알고 있음 => 시작 위치만 알고 있음, 데이터 X
+  # db에서 읽어온 내용을 $result로 찍히지 않음
+
+  if(! $result){  # $result 값이 없다면
+    # db에게 일을 시켰는데 에러가 발생하였다면 거짓반환
+    echo mysql_error(); # mysql의 에러 메세지를 받아옴
+    exit;
+  }
+
+  echo "MySQL 서버에 성공적으로 접속되었고 DB가 오픈되었습니다.<br>
+  또한 SQL query가 전달되었습니다.<br>";
+
+  echo $result;
+  mysql_close($conn);
+ ?>
+
+
+=> db 이름이 잘못된다면 에러발생
+
+
+
+< 실습예제 > insert.php
+<meta charset="utf-8">  <!-- 한글깨짐 방지를 위해 -->
+<?php
+  # php 프로그램과 DB가 연동되는 부분
+  mysql_connect("localhost", "user2020", "php");  # 연결할 DB의 host, id, pw
+  mysql_select_db("CSE2020"); # 우리가 사용가능한 DB
+
+  # sql 문장
+  $query = "INSERT INTO a201907033 (id, sex, hp_type, hp_no, year, point)
+            VALUES('test07', 'F', 'KT', '010-2222-2222', '2100', 800)";
+            # point는 int형태
+
+  # query가 실행가능한지 값 반환
+  $result = mysql_query($query);
+
+  # error 가 발생했는지 확인하는 조건문
+  if (!$result) {
+    echo mysql_error();
+    exit;
+  }
+
+  echo "insert 완료";
+ ?>
+
+
+
+< 질문 >
+위의 프로그램을 만든후 새로고침을 하게 되면 ?
+ 키에 대한 중복이 있다고 에러 발생
+( Duplicate entry 'test07' for key 1 )
+
+
+
