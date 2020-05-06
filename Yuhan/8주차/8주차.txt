@@ -1,0 +1,78 @@
+=============================================================================
+
+8주차
+1. 5/11주 (9주차) 1차 대면 수업 계획(안)
+2. php와 DB 연동 리뷰
+3. insert2.php
+4. mysql_fetch_array() / list.php 작성
+
+=============================================================================
+
+1. 5/11주 (9주차) 1차 대면 수업 계획(안)
+
+1차 대면 수업 : 학년별 실습 1개 과목 진행
+- 1시간 온라인 수업 / 2시간 대면 실습
+- 각 반 2개로 분반 운영 (2개 실습실 분산)
+- 2학년 수업 지정일 : 화요일 (웹프로그래밍)
+	1반(10시부터 3시간) / 2반(14시부터 3시간)
+
+취창업멘토링 1시간 대면 수업(필수) - 상담 및 진로 지도
+
+8주차 웹프로그래밍 수업 : 5/8까지 완료
+9주차 대면 수업 1교시(온라인) : 5/11까지 출석 (5/9 업로드 예정)
+9주차 대면 실습 2-3교시 : 5/12일 출석
+ 
+10주차~11주차 화요일 중간고사
+
+
+* 2차 직무 평가 - 추후 대면수업에서 안내 
+	-> join.html
+	-> join.php
+
+
+
+
+
+
+
+2. DB 연동 방법
+
+< 쿼리 결과 처리 >
+예) 
+$id = "joo";
+$query = "SELECT hp_no, point FROM a학번 where id = '$id'";
+$result = mysql_query($query);
+
+hp_no			point
+-------------------------------
+011-123-111		200
+
+
+
+방법1. 
+mysql_fetch_row(int result)
+
+	$row = mysql_fetch_row($result);
+	echo "$row[0]	$row[1]";
+
+방법2.
+mysql_fetch_row(int result)
+
+	$row = mysql_fetch_row($result);
+	echo "$row[hp_no]	$row[point]";
+
+방법3.
+mysql_fetch_row(int result)
+
+	$row = mysql_fetch_row($result);
+	echo "$row->hp_no	$row->point";
+
+
+방법4.
+mysql_result(int result, int row, [mixed field])
+
+	$hp = mysql_result($result, 0, 0);
+	$p = mysql_result($result, 0, 1);
+	echo "$hp	$p";
+
+
