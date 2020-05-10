@@ -1,0 +1,83 @@
+=============================================================================
+
+9주차
+
+1. 9주차 비대면 1교시 영상 수업
+2. 실습실 환경 이해하기
+3. Programming 연습 rep1 문제분석
+--> 11주차에서는 회원정보 변경 (update)
+
+=============================================================================
+
+< 실습실 pc telnet 확인 > 
+
+명령프롬프트 -> telnet red.yuhan.ac.kr
+
+* 연결할 수 없다고 뜬다면 ?
+- 제어판 -> windows 기능 켜기/끄기 -> Telnet Client 켜기
+
+
+
+
+< 2차 직무 평가 - 대면수업에서 작성 방법 안내 >
+(5/23)까지 사이버 제출
+http://red.yuhan.ac.kr/~y학번/mid/join.html
+
+
+
+
+[ 실습과제 ] - rep1
+DB명 : CSE2020
+table명 : b학번
+
+필드		데이터형		비고
+아이디		varchar(16)		not null, primary key
+비밀번호	varchar(16)		not null
+이름		varchar(8)		
+핸드폰번호	varchar(13)		123-1234-1234
+우편번호	char(5)			12345
+성별		char(1)			'M', 'F'
+
+
+< 처리조건 >
+- 핸드폰 번호 앞 3자리는 select type을 이용 			O
+- 성별은 radio type 이용					O
+- 회원가입 폼의 naem 변수에 각자의 이름 이니셜을 붙일 것	O
+- 회원가입 폼 : join_form.php					O
+- 회원가입 처리 프로그램 : join.php
+
+
+- 초기문서 : index.html
+	<a href = "join_form.php">회원가입</a>
+
+
+
+< rep1 작업 위치 및 url >
+http://red.yuhan.ac.kr/~학번/rep1
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
