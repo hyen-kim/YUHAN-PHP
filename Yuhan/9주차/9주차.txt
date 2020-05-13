@@ -59,25 +59,69 @@ http://red.yuhan.ac.kr/~학번/rep1
 
 
 
+====================================================================================
+
+오늘 우리가 해야할 일 
+- 9주차 비대면 2-3교시
+- Programming 연습 rep1 실습 따라하기
+
+====================================================================================
+
+1. 2차 직무 평가 - 작성 방법 안내
+(5/23) 까지 사이버 과제에 제출
+http://red.yuhan.ac.kr/~y학번/mid/join.html
+
+2차 직무평가 개요
+* 회원가입 폼 만들기 (join.html)
+	- 8가지 form tag 모두 사용하기
+	- <select> 3개 이상 사용하기
+	- <radio> 3개 이상 사용
+	- <checkbox> 다중 선택 가능 항목으로
+	- name, value 속성 정확히 표현
+	- 한글 value 사용 불가
+* 전달된 내용 출력 (join.php)
+
+ex) 
+<?php 
+	$tel = $tel1."-".%tel2."-".$tel3;
+	echo "아이디 : $id";
+	echo "전화번호 : $tel";
+
+?>
+
+
+===> 내가 작성했던 자바 스크립트 다 지우고 처음부터 다시 시작한다는 마음으로 다시 하기
 
 
 
 
+< rep1 작업 위치 및 url >
+http://red.yuhan.ac.kr/~y학번/rep1
+index.html
+join_from.php
+join.php
 
 
+1. b학번 table 생성
+create table b201907033(
+	id varchar(16) primary key,
+	pw varchar(16) not null,
+	name varchar(8),
+	pho varchar(13),
+	zipcode char(5),
+	sex char(1)
+);
 
 
+2. join_form.php 작성
+< form method=post action = join.php>
+	.............
+</form>
 
 
-
-
-
-
-
-
-
-
-
-
+2-1. DB 연동 방법 참고
+- MySQL 데이터베이스 서버 접속  : Mysql_connect("localhost", "아이디","비밀번호")
+- 사용할 데이터베이스 선택 	: mysql_select_db("DB명")
+- SQL query 전달		: mysql_query()
 
 
