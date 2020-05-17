@@ -25,13 +25,16 @@
 
   $row = mysql_fetch_array($result);
 
-  
   if($row['id'] != $login_id){
       echo $login_id." : 존재하지 않는 ID 입니다";
-       exit;
-    }
+      exit;
+  }
+  if ($row['pw'] != $login_pw) {
+    echo "비밀번호가 일치하지 않습니다.";
+    exit;
+  }
 
-
+  echo $login_id."님 입장을 환영합니다.<br>";
 
  ?>
   <a href="modify_from.php?id=<?php echo $khi_id ?>">[회원정보 변경]</a>
