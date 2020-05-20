@@ -15,21 +15,32 @@
     exit;
   }
 
-  $query = "SELECT * FROM b201907033 WHERE id = '$khi_id'";
-  $result = mysql_query($query);
+  $query1 = "SELECT * FROM b201907033 WHERE id = '$khi_id'";
+  $query2 = "SELECT password('$khi_pw')";
 
-  if (! $result) {
+  $result1 = mysql_query($query1);
+  if (! $result1) {
     echo mysql_errno(). " : ". mysql_error(); # no : 번호 / or : 메시지
     exit;
   }
 
-  $row = mysql_fetch_array($result);
+  $result2 = mysql_query($query2);
+  if (! $result2) {
+    echo mysql_errno(). " : ". mysql_error(); # no : 번호 / or : 메시지
+    exit;
+  }
+
+
+  $row = mysql_fetch_array($result1);
+  $row_pw = mysql_fetch_row($result2);
 
   if(! $row) {
     echo "$khi_id"." :존재하지 않는 ID입니다.";
     exit;
   }
-  
+  if($row_pw['pw']!= $row['pw']) {
+    echo "비밀번호가 일치하지 않습니다.";
+  }
   if ($row['pw'] != $khi_pw) {
     echo "비밀번호가 일치하지 않습니다.";
     exit;
