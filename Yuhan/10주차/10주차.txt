@@ -31,30 +31,82 @@
 - 로그인 처리 프로그램 : login.php
 
 
+1. b학번 table 확인
+desc b201907033
+
+desc b201907033
+--------------------------------
+id   	varchar(16)   	   	PRI   	   	   
+pw   	varchar(16)   	   	   	   	   
+name   	varchar(8)   	YES   	   	   	   
+pho   	varchar(13)   	YES   	   	   	   
+zipcode varchar(5)   	YES   	   	   	   
+sex   	char(1)   	YES   	   	   	   
 
 
+2. login_form.php 작성
+<form method=post action=login.php>
+
+아이디 : <input type=text name=khi_id><br>
+비밀번호 : <input type=password name=khi_pw><br>
+<input type=submit value="login">
+</form>
 
 
+3. DB연결
+<?php 
+mysql_connect("localhost", "user2020", "php");
+mysql_select_db("CSE2020");
+
+$query = "select * from b201907033 where
+		id = '$khi_id'"	// DB에게 작업시킬 sql 문장
+$result = mysql_query($query);
+
+if (! $result) {
+  echo mysql_errno(). " : ". mysql_error(); # no : 번호 / or : 메시지
+  exit;
+}
+
+[방법1]
+$r = mysql_num_rows($result);	// 읽어온 데이터 개수를 알 수 있음
+// 아이디가 정상적으로 존재한다면 한줄을 가져오고 
+// 그것이 아니라면 0줄을 가져온다.
+
+if(! $r) {
+  echo "$khi_id"." :존재하지 않는 ID입니다.";
+  exit;
+}
+
+if($r == 0) {
+  echo "$khi_id"." :존재하지 않는 ID입니다.";
+  exit;
+}
+
+$row = mysql_fetch_array($result); // DB에 읽어놨던 데이터를 저장 -> 배열처럼 사용 가능
+
+if($row["pw"] != $khi_pw) {
+  echo "비밀번호가 일치하지 않습니다.";
+  exit;
+}
+
+echo $khi_id."님 입장을 환영합니다.<br>";
 
 
+[방법2]
+
+$row = mysql_fetch_array($result); // DB에 읽어놨던 데이터를 저장 -> 배열처럼 사용 가능
 
 
+if(! $row) {
+  echo "$khi_id"." :존재하지 않는 ID입니다.";
+  exit;
+}
 
+if($row["pw"] != $khi_pw) {
+  echo "비밀번호가 일치하지 않습니다.";
+  exit;
+}
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+echo $khi_id."님 입장을 환영합니다.<br>";
 
 
