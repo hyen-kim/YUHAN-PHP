@@ -1,0 +1,116 @@
+==========================================================================
+
+11주차
+
+1. 정보 전달 방법에 대한 학습
+2. Programming 연습 rep3 문제 분석 (회원정보 변경) 
+3. Programming 연습 rep3 실습 따라하기
+
+==========================================================================
+
+< rep3 작업 위치 및 url > --> http://red.yuhan.ac.kr/~y학번/rep3
+
+red server
+  |
+y학번
+  |
+public_html
+  | 
+rep3
+- index.html
+- login_form.php	modify_form.php
+- login.php	 	modify.php 
+
+
+
+
+
+
+
+1. 정보전달 방식 - form 이용 -> rep1, rep2
+name변수에 값이 실려서 넘어가게 된다.
+
+
+
+
+
+
+
+
+2. 정보전달 방식 - get 방식 이용 -> rep3
+
+login.php		modify_form.php		modify.php
+
+<?php			<?php			  ?
+  $jhs_id		   $id
+?>			?>
+
+[회원정보변경]
+
+<a href = "modify_form.php?id=<?php echo $khi_id ?>">
+[회원정보 변경] </a>
+
+
+
+
+modify_form.php
+<?php 
+<form method=post
+	action="modify.php?id=<?php echo $id ?>">
+
+	아이디 : echo $id;
+?>
+
+
+
+modify.php
+$id
+
+
+
+
+
+
+< rep3 >
+- 회원정보 변경 프로그램을 작성하라.
+
+
+< 처리조건 >
+- 등록된 회원 아이디와 비밀번호로 로그인 후에 회원변경 링크로부터
+  회원정보 변경 폼으로 이동.
+
+- 초기문서 : index.html
+ 	<a href="login_form.php"> 로그인 </a>
+- 로그인 폼 : login_form.php
+- 로그인 처리 프로그램 : login.php
+	<a href="modify_form.php?id=<?php echo $khi_id ?>"> [회원정보 변경] </a>
+- 회원정보변경 폼 : modify_form.php
+- 회원정보변경 처리 프로그램 : modify.php
+
+
+* modify_form.php : 정보변경을 원하는 아이디의 정보를 보여주기 위한 form
+- 전달된 id에 대한 정보를 DB에서 가져옴
+$query = "SELECT * FROM b201907033 WHERE ID = '$id'";
+$result = mysql_query($query);
+$row = mysql_fetch_array($result);
+
+- form을 만들어서 정보를 출력
+<form name=modifyform method=post
+		action="modify.php?id=<?php echo $id ?>">
+	아이디 : <?php echo "$id" ?> <br>
+	패스워드 : <input type=texdt name=pwd value="<?php echo $row["pw"]?>"> <br>
+	.....
+
+
+* modify.php
+- 폼에서 전달된 데이터를 DB에 update
+
+
+
+
+
+
+
+
+
+
