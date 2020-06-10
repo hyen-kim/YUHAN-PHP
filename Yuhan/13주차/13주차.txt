@@ -1,0 +1,184 @@
+==========================================================================
+
+13주차
+
+==========================================================================
+
+< 오늘 우리가 해야할 일 >
+1. 대면 학기말 시험에 대한 안내
+: 대략 14주차 수업, 15주차 시험, 16주차 시험
+: 학년별 일주일 하루 학교 등교, 시험과목 요일은 다음주 중반에 공지
+2. 정규식을 이용한 데이터 유효성 검사
+3. 쿠키의 개념과 활용
+4. rep5 실습 따라하기
+
+
+
+
+< 정규표현식을 이용한 데이터 체크 > : 기말고사 한문제 출제 -> 다음 조건을 만족하는 정규표현식을 만드시오.
+
+* 정규표현식의 규칙
+- . : 임의의 한 문자 				ex) s.e -> sae, sce, sbe
+-> asaea 도 s.e 에 맞는 문자열. (s.e 패턴이 있기 때문에)
+- * : * 앞의 문자가 없거나 하나 이상인 문자열
+- + : + 앞의 문자가 하나 이상인 문자열
+- ? : ? 앞의 문자가 없거나 하나인 문자열
+- ^ : ^ 다음의 문자열로 시작되는 문자열		ex) ^the -> the girl, theater
+- $ : $ 앞의 문자열로 끝나는 문자열
+
+
+* [] : [] 안의 문자 중 하나의 문자
+ex) [ab]cd	: acd 나 bcd 가 포함하는 문자열
+    [a-z] 	: 영문 소문자를 한 문자 포함하는 문자열
+    [0-9] 	: 숫자 하나를 포함하는 문자열
+    a[^bc]d 	: abd 와 acd를 제외한 a.d 와 일치하는 문자열
+
+
+* {} : 앞에 있는 문자 또는 문자열의 개수
+ex) a{2}b 	: aab를 포함하는 문자열
+    a{2,}b	: a가 최소 2개이상이고 b가 뒤따르는 문자열
+    a{1,3}b	: a가 한 개에서 3개까지 이고 b가 뒤따르는 문자열
+
+
+* () : 문자들의 그룹화
+ex) a(bc){2} 	: a 뒤에 bc의 개수가 2인 문자열
+
+
+* |  : OR 연산자
+ex) he|she	: he 나 she를 포함하는 문자열
+   (he|she)is 	: heis 나 sheis를 포함하는 문자열
+
+
+* 문자클래스
+[[:alpha:]]	: 알파벳 문자중 하나를 의미; [a-zA-z] 또는 [a-Z]와 동일한 표현
+[[:digit:]]	: 숫자 하나를 의미; [0-9]와 동일한 표현
+[[:alnum:]]	: 알파벳 문자나 숫자중 하나를 의미; [a-zA-Z0-9]와 동일한 표현
+[[:space:]]	: 공백문자를 의미
+
+
+****  패턴 만들기  ****
+1) 앞에서 넘어온 문자열이 우편번호 형식에 맞는지 검사 : 숫자 5글자
+- [[:digit:]]{5}
+33333	 올바른 표현
+a33333	 올바른 표현	--> dight의 숫자는 5개가 맞으므로 
+a111	 틀린 표현
+
+- ^[[:digit:]]{5}
+33333	 올바른 표현
+a33333	 틀린 표현
+a111	 틀린 표현
+333333d	 올바른 표현	--> 숫자는 일단 앞에 5개가 왔으므로 올바른 패턴
+
+- ^[[:digit:]]{5}$
+33333	 올바른 표현
+a33333	 틀린 표현
+a111	 틀린 표현
+333333d	 틀린 표현
+
+2) 첫글자는 영문자, 두 번째부터는 숫자나 영문자가 와도된다
+전체 id의 길이는 15개까지 허용한다.
+- ^[[:alpha:]]{1}[[:alnum:]]{0,14}$
+- ^[[:alpha:]][[:alnum:]]{0,15}$
+
+3) 핸드폰 번호
+- ^([[:digit:]]{3}) - ([[:digit:]]{3, 4}) - ([[:digit:]]{4})$
+
+
+
+
+
+* 관련 PHP 함수
+- ereg( string pattern, string string ) ~ 패턴에 대한 문자열이 존재하면 true를 반환
+ex) ereg("^[[:alpha:]][[:alnum:]]{0, 15}$", $id)
+
+<? php
+if(! ereg("^[[:alpha:]][[:alnum:]]{0, 15}$", $id) ){
+      echo("아이디는 최대 16자리 영숫자로 구성됩니다.");
+      exit;
+}
+?>
+
+
+
+- ereg_replace( string pattern, string replacement, string string )
+: string 중에서 pattern과 일치하는 문자열을 replacement로 대치
+
+
+
+
+
+
+< rep5 작업 위치 및 url >
+red server
+
+y학번
+
+public_html
+
+rep5
+	index.html	login_form.php
+	f1.php		login.php
+	f2.php		logout.php
+
+
+
+
+< 정보전달방식 - cookie 이용 >
+modify_form.php
+setcookie("uid", "$id", 0);
+<form method=post 
+	action=modify.php>
+아이디 : <?php echo $id ;?>
+</form>
+
+
+
+
+
+< 쿠키 (cookie) >
+
+형식) setcookie(name, value, expire, path, domain, secure)
+- name	: cookie 이름
+- value : cookie에 저장될 값
+- expire : cookie의 생존시간 (정수형 데이터로서 표준 유닉스 시간)
+- path : cookie를 사용할 수 있는 범위 지정
+- domain
+- secure
+
+setcookie("uid", "$id", time()+3600)
+
+ex) ex8-01.php : cookie test
+<?php 
+	setcookie("test", "on", time() + 60 );	// 쿠키이름은 test, on이라는 이름으로 숨김, 지금시간부터 60초동안 숨어있게
+	echo "$test";	// 이상한 메시지 출력됨
+			// 쿠키 값은 화면이 바뀌면 가져올 수 있음
+			// html 태그든 뭐든 앞에 있으면 안됨
+?>
+
+--> ex8-02.php, ex8-03.php 파일 참고
+
+
+
+참조) 	$uid
+	$_COOKIE["uid"]
+
+- headers_sent() 함수 : header가 전송되었는지를 반환하는 함수
+
+
+
+
+
+
+
+
+< rep5 >
+
+* 실습과제 구성
+- index.html
+	f1.php
+	f2.php
+
+- login_form.php -- login.php
+- logout.php
+
+
