@@ -1,0 +1,95 @@
+==========================================================================
+
+14주차
+
+==========================================================================
+
+< 오늘 우리가 해야할 일 >
+
+- 대면 학기말 시험에 대한 안내 
+	: 오픈자료 아닌 과목의 문제지 먼저, 그 다음 제출 후 오픈자료 문제지 줌
+	: 15주차 3과목 --> 답안 제출하면 바로 귀가 가능
+	: 16주차 4과목 --> 동시에 문제지 줌	--> 쉬는시간 없이 
+
+- 방명록 만들기
+- rep6 실습 따라하기
+
+
+
+
+
+
+
+< rep6 작업 위치 및 URL >
+
+red server 
+
+y학번
+
+public_html
+
+rep6
+	index.html	guest_form.php
+	f1.php		guest.php
+	f2.php		guestbook.php
+	connect.php	
+
+
+
+
+
+
+
+
+* 방명록
+- guest table layout
+필드명		데이터 형 			비고
+uid 		int 				auto_increment
+						primary
+name 		varchar(12)			이름
+email 		varchar(40)			이메일
+comment		text				내용
+signdate	int 				작성시간
+clienthost	varchar(20)			작성자 IP
+pwd		varchar(16)			비밀번호
+
+
+1. T학번 테이블 생성
+create table t201907033(
+uid int auto_increment primary key, 
+name varchar(12), 
+email varchar(40),
+comment text,
+signdate int,
+clienthost varchar(20),
+pwd varchar(16)
+);
+
+
+* 프로그램 구성
+프로그램 		내용
+guest_form.php		방문한 소감을 작성하기 위한 폼을 만들기 위한 프로그램
+guest.php		방문자가 작성한 내용을 DB에 저장하기 위한 프로그램
+guestbook.php		방명록의 내용을 보여주기 위한 프로그램
+	
+방명록(글쓰기)
+현재 방명록에 서명된 글이 없습니다.
+
+
+(1) 방명록 작성 폼 - guest_form.php
+    <form name=guest_fom method=post action="guest.php">
+    </form>
+
+
+(2) DB에 데이터 저장 - guest.php 
+
+
+
+< 처리조건 >
+1. 기본과제 - 방명록 완성하기
+
+DB명 : CSE2020
+table명 : t학번
+
+index.html - f1.php - f2.php
+
